@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe/constant.dart';
 
 class BannerCardHomeWidget extends StatelessWidget {
   const BannerCardHomeWidget({super.key});
@@ -16,27 +17,19 @@ class BannerCardHomeWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(30),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     color: Colors.orange,
                   ),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Worldwide Recipe",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+                        style: CustomTextTheme.heading3.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "Find all suitable recipe all around the world",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.white,
-                        ),
+                        style: CustomTextTheme.heading5.copyWith(color: Colors.white),
                       ),
                     ],
                   ),

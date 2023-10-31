@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -12,73 +15,246 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: const Text(
-          "MyRecipe",
-          style: TextStyle(fontSize: 20),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(width: 30),
+            const Spacer(),
+            const Text(
+              "Recipe",
+              style: TextStyle(color: textColor),
+            ),
+            const SizedBox(width: 2),
+            Text(
+              "App",
+              style: CustomTextTheme.heading6.copyWith(color: mutedColor),
+            ),
+            const Spacer(),
+          ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.bookmark_outline),
-          ),
-        ],
       ),
       body: Obx(
-        () => Column(
+        () => ListView(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+                onChanged: (value) => _c.search(value),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(FeatherIcons.search),
+                  filled: true,
+                  hintStyle: CustomTextTheme.heading5,
+                  fillColor: cardColor,
+                  hintText: "Search",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+            ),
             const BannerCardHomeWidget(),
-            _c.loading == Status.loading
-                ? const Expanded(child: Center(child: CircularProgressIndicator()))
-                : Expanded(
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          width: double.infinity,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Country List",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _c.loadCountries();
-                                  Get.toNamed('/country-list');
-                                },
-                                child: const Text("View All"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: ListView(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            children: [
-                              ..._c.countryList.sublist(0, 10).map(
-                                    (e) => ListTile(
-                                      onTap: () {},
-                                      leading: SvgPicture.network(e['flag'], width: 50),
-                                      title: Text(e['country']),
-                                      subtitle: Text(
-                                        "Find food recipe in ${e['country']}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                            ],
-                          ),
-                        ),
-                      ],
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => _c.changeType(TypeDashboard.countries),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      decoration: BoxDecoration(
+                        color: _c.type == TypeDashboard.countries ? primaryColor : cardColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(FeatherIcons.flag, color: _c.type == TypeDashboard.countries ? Colors.white : mutedColor),
+                          const SizedBox(width: 10),
+                          Text("Browse by Countries", style: CustomTextTheme.heading5.copyWith(color: _c.type == TypeDashboard.countries ? Colors.white : mutedColor)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  GestureDetector(
+                    onTap: () => _c.changeType(TypeDashboard.food),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      decoration: BoxDecoration(
+                        color: _c.type == TypeDashboard.food ? primaryColor : cardColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(FeatherIcons.smile, color: _c.type == TypeDashboard.food ? Colors.white : mutedColor),
+                          const SizedBox(width: 10),
+                          Text("Browse by Food", style: CustomTextTheme.heading5.copyWith(color: _c.type == TypeDashboard.food ? Colors.white : mutedColor)),
+                        ],
+                      ),
                     ),
                   )
+                ],
+              ),
+            ),
+            const SizedBox(height: 15),
+            (_c.type == TypeDashboard.countries)
+                ? _c.loading == Status.loading
+                    ? const Expanded(child: Center(child: CircularProgressIndicator()))
+                    : Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("View recipes by countries", style: CustomTextTheme.heading4),
+                            const SizedBox(height: 15),
+                            GridView.count(
+                              crossAxisCount: 2,
+                              childAspectRatio: 3 / 3.5,
+                              shrinkWrap: true,
+                              mainAxisSpacing: 15,
+                              crossAxisSpacing: 15,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                ...(_c.filterCountryList.length > 4 ? _c.filterCountryList.sublist(0, 4) : _c.filterCountryList).map((e) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(15),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: cardColor,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () => Get.toNamed('/recipe-country', arguments: e),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 80,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: primaryColor.withOpacity(0.2),
+                                            ),
+                                            child: Center(
+                                              child: SvgPicture.network(e['flag']),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 15),
+                                          Text(
+                                            e['country'],
+                                            style: CustomTextTheme.heading5,
+                                            textAlign: TextAlign.center,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            "Browse food in ${e['country']}",
+                                            style: CustomTextTheme.heading6.copyWith(color: mutedColor),
+                                            textAlign: TextAlign.center,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                })
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                : Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("View recipes by food", style: CustomTextTheme.heading4),
+                        const SizedBox(height: 15),
+                        GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 3 / 4,
+                          children: [
+                            ...(_c.filteredListRecipe.length > 4 ? _c.filteredListRecipe.sublist(0, 4) : _c.filteredListRecipe).map((e) {
+                              return InkWell(
+                                onTap: () => Get.toNamed('/recipe', arguments: e),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  elevation: 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 1,
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(10),
+                                                child: Image.memory(
+                                                  base64Decode(e.image ?? ''),
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              right: 10,
+                                              top: 10,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: primaryColor,
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                                                child: Text(
+                                                  "${e.countries?.toUpperCase()}",
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomTextTheme.heading5.copyWith(color: cardColor),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(e.name ?? '', style: CustomTextTheme.heading4),
+                                        Text(
+                                          e.instruction ?? '',
+                                          style: CustomTextTheme.heading5.copyWith(color: mutedColor),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            })
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+            const SizedBox(height: 30),
           ],
         ),
       ),
