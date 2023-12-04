@@ -9,10 +9,12 @@ class RecipeController extends GetxController {
   final Rx<List<StuffOnRecipeEntities>> _stuffOnRecipe = Rx<List<StuffOnRecipeEntities>>([]);
   final Rx<List<StuffEntities>> _stuff = Rx<List<StuffEntities>>([]);
   final Rx<int> _total = Rx<int>(0);
+  final Rx<int> _qty = Rx<int>(1);
 
   List<StuffOnRecipeEntities> get stuffOnRecipe => _stuffOnRecipe.value;
   List<StuffEntities> get stuff => _stuff.value;
   int get total => _total.value;
+  int get qty => _qty.value;
 
   @override
   void onInit() {
@@ -46,5 +48,9 @@ class RecipeController extends GetxController {
     }
 
     _total.value = tempTotal;
+  }
+
+  void onChanged(String value) {
+    _qty.value = int.tryParse(value) ?? 1;
   }
 }

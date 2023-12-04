@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:recipe/constant.dart';
 import 'package:recipe/controller/home_controller.dart';
@@ -49,7 +48,7 @@ class HomePage extends StatelessWidget {
                   filled: true,
                   hintStyle: CustomTextTheme.heading5,
                   fillColor: cardColor,
-                  hintText: "Search",
+                  hintText: "Cari",
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(15),
@@ -76,7 +75,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           Icon(FeatherIcons.flag, color: _c.type == TypeDashboard.countries ? Colors.white : mutedColor),
                           const SizedBox(width: 10),
-                          Text("Browse by Countries", style: CustomTextTheme.heading5.copyWith(color: _c.type == TypeDashboard.countries ? Colors.white : mutedColor)),
+                          Text("Berdasarkan Benua", style: CustomTextTheme.heading5.copyWith(color: _c.type == TypeDashboard.countries ? Colors.white : mutedColor)),
                         ],
                       ),
                     ),
@@ -94,7 +93,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           Icon(FeatherIcons.smile, color: _c.type == TypeDashboard.food ? Colors.white : mutedColor),
                           const SizedBox(width: 10),
-                          Text("Browse by Food", style: CustomTextTheme.heading5.copyWith(color: _c.type == TypeDashboard.food ? Colors.white : mutedColor)),
+                          Text("Berdasarkan Menu", style: CustomTextTheme.heading5.copyWith(color: _c.type == TypeDashboard.food ? Colors.white : mutedColor)),
                         ],
                       ),
                     ),
@@ -112,7 +111,7 @@ class HomePage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("View recipes by countries", style: CustomTextTheme.heading4),
+                            Text("Lihat Resep Berdasarkan Benua", style: CustomTextTheme.heading4),
                             const SizedBox(height: 15),
                             GridView.count(
                               crossAxisCount: 2,
@@ -122,7 +121,7 @@ class HomePage extends StatelessWidget {
                               crossAxisSpacing: 15,
                               physics: const NeverScrollableScrollPhysics(),
                               children: [
-                                ...(_c.filterCountryList.length > 4 ? _c.filterCountryList.sublist(0, 4) : _c.filterCountryList).map((e) {
+                                ...(_c.filterCountryList).map((e) {
                                   return Container(
                                     padding: const EdgeInsets.all(15),
                                     width: double.infinity,
@@ -143,13 +142,13 @@ class HomePage extends StatelessWidget {
                                               shape: BoxShape.circle,
                                               color: primaryColor.withOpacity(0.2),
                                             ),
-                                            child: Center(
-                                              child: SvgPicture.network(e['flag']),
+                                            child: const Center(
+                                              child: Icon(Icons.public, color: primaryColor, size: 30),
                                             ),
                                           ),
                                           const SizedBox(height: 15),
                                           Text(
-                                            e['country'],
+                                            e['name'],
                                             style: CustomTextTheme.heading5,
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
@@ -157,7 +156,7 @@ class HomePage extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 5),
                                           Text(
-                                            "Browse food in ${e['country']}",
+                                            "Lihat resep di ${e['name']}",
                                             style: CustomTextTheme.heading6.copyWith(color: mutedColor),
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
@@ -179,7 +178,7 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("View recipes by food", style: CustomTextTheme.heading4),
+                        Text("Lihat Berdasarkan Menu", style: CustomTextTheme.heading4),
                         const SizedBox(height: 15),
                         GridView.count(
                           crossAxisCount: 2,

@@ -32,7 +32,7 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute("CREATE TABLE Stuff(id INTEGER PRIMARY KEY, image TEXT, name TEXT, price INT, stock INT, unit TEXT, description TEXT)");
-    await db.execute("CREATE TABLE Recipe(id INTEGER PRIMARY KEY, image TEXT, name TEXT, duration INT, countries TEXT, instruction TEXT)");
+    await db.execute("CREATE TABLE Recipe(id INTEGER PRIMARY KEY, image TEXT, name TEXT, duration INT, continental TEXT, countries TEXT, instruction TEXT)");
     await db.execute("CREATE TABLE StuffOnRecipe(id INTEGER PRIMARY KEY, idRecipe INTEGER, idStuff INTEGER, qty INTEGER)");
     print("Table is created");
   }
@@ -106,9 +106,9 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<List<RecipeEntities>> getRecipeOnCountry(String code) async {
+  Future<List<RecipeEntities>> getRecipeOnCountry(String name) async {
     var dbClient = await db;
-    final res = await dbClient.query('Recipe', where: 'countries = ?', whereArgs: [code]);
+    final res = await dbClient.query('Recipe', where: 'continental = ?', whereArgs: [name]);
     return res.map((e) => RecipeEntities.fromJson(e)).toList();
   }
 }

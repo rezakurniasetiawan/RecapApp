@@ -16,7 +16,7 @@ class SplashScreenPage extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Image.asset('assets/images/burger.png', width: 150),
+              child: Image.asset('assets/images/ic_app.png', width: 150),
             ),
           ),
         ],

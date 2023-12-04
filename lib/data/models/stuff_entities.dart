@@ -4,19 +4,19 @@ class StuffEntities extends Equatable {
   final int? id;
   final String? image;
   final String? name;
-  final int? stock;
+  // final int? stock;
   final int? price;
   final String? description;
   final String? unit;
 
-  const StuffEntities({this.id, this.image, this.name, this.stock, this.price, this.description, this.unit});
+  const StuffEntities({this.id, this.image, this.name, this.price, this.description, this.unit});
 
   StuffEntities copyWith({String? image, String? name, int? stock, int? price, String? description, String? unit}) {
     return StuffEntities(
       id: id,
       image: image ?? this.image,
       name: name ?? this.name,
-      stock: stock ?? this.stock,
+      // stock: stock ?? this.stock,
       price: price ?? this.price,
       description: description ?? this.description,
       unit: unit ?? this.unit,
@@ -28,7 +28,7 @@ class StuffEntities extends Equatable {
       id: id,
       image: null,
       name: name ?? this.name,
-      stock: stock ?? this.stock,
+      // stock: stock ?? this.stock,
       price: price ?? this.price,
       description: description ?? this.description,
       unit: unit ?? this.unit,
@@ -38,7 +38,7 @@ class StuffEntities extends Equatable {
   Map<String, dynamic> toMap() => {
         'image': image,
         'name': name,
-        'stock': stock,
+        // 'stock': stock,
         'price': price,
         'description': description,
         'unit': unit,
@@ -48,7 +48,7 @@ class StuffEntities extends Equatable {
         id: json['id'],
         name: json['name'],
         image: json['image'],
-        stock: json['stock'],
+        // stock: json['stock'],
         price: json['price'],
         description: json['description'],
         unit: json['unit'],
@@ -59,7 +59,7 @@ class StuffEntities extends Equatable {
         id,
         image,
         name,
-        stock,
+        // stock,
         price,
         description,
         unit,

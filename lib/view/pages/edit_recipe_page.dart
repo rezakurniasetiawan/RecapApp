@@ -40,7 +40,7 @@ class EditRecipePage extends StatelessWidget {
                             const Icon(Icons.delete, color: Colors.red),
                             const SizedBox(width: 10),
                             Text(
-                              "Delete",
+                              "Hapus",
                               style: CustomTextTheme.heading4.copyWith(color: Colors.red),
                             ),
                           ],
@@ -85,7 +85,7 @@ class EditRecipePage extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () => _c.deleteImage(),
-                                  child: const Text('Delete'),
+                                  child: const Text('Hapus'),
                                 ),
                               ],
                             ),
@@ -104,16 +104,16 @@ class EditRecipePage extends StatelessWidget {
                                   children: [
                                     const Icon(FeatherIcons.image, size: 50, color: mutedColor),
                                     const SizedBox(height: 10),
-                                    Text("Add Cover Photo", style: CustomTextTheme.heading4.copyWith(color: textColor)),
+                                    Text("Tambah Foto", style: CustomTextTheme.heading4.copyWith(color: textColor)),
                                     const SizedBox(height: 10),
-                                    Text("(up to 2Mb)", style: CustomTextTheme.heading6.copyWith(color: mutedColor)),
+                                    Text("(Max 2Mb)", style: CustomTextTheme.heading6.copyWith(color: mutedColor)),
                                   ],
                                 ),
                               ),
                             ),
                           ),
                     const SizedBox(height: 15),
-                    Text("Recipe Name", style: CustomTextTheme.heading4),
+                    Text("Nama Resep", style: CustomTextTheme.heading4),
                     const SizedBox(height: 10),
                     TextFormField(
                       initialValue: _c.recipe.name,
@@ -122,7 +122,7 @@ class EditRecipePage extends StatelessWidget {
                         filled: true,
                         hintStyle: CustomTextTheme.body1,
                         fillColor: cardColor,
-                        hintText: "Enter name",
+                        hintText: "Masukkan nama",
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(15),
@@ -133,7 +133,7 @@ class EditRecipePage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Duration", style: CustomTextTheme.heading4),
+                        Text("Durasi memasak", style: CustomTextTheme.heading4),
                         const SizedBox(height: 10),
                         TextFormField(
                           initialValue: _c.recipe.duration.toString(),
@@ -144,7 +144,7 @@ class EditRecipePage extends StatelessWidget {
                             filled: true,
                             hintStyle: CustomTextTheme.body1,
                             fillColor: cardColor,
-                            hintText: "Enter cooking duration (minutes)",
+                            hintText: "Masukkan durasi memasak (menit)",
                             border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(15),
@@ -157,29 +157,56 @@ class EditRecipePage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Country", style: CustomTextTheme.heading4),
+                        Text("Benua", style: CustomTextTheme.heading4),
                         const SizedBox(height: 10),
                         DropdownButtonFormField<String>(
-                          value: _c.recipe.countries,
+                          value: _c.recipe.continental,
                           decoration: InputDecoration(
                             filled: true,
                             hintStyle: CustomTextTheme.body1,
                             fillColor: cardColor,
-                            hintText: "Enter countries",
+                            hintText: "Masukkan benua",
                             border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          onChanged: (value) => _c.onChange("countries", value ?? "-"),
+                          onChanged: (value) => _c.onChange("continental", value ?? "-"),
                           items: [
-                            ..._c.countryList.map((e) => DropdownMenuItem(value: e['code'] ?? '', child: Text(e['country'] ?? ''))),
+                            ..._c.countryList.map((e) => DropdownMenuItem(value: e['name'] ?? '', child: Text(e['name'] ?? ''))),
                           ],
                         ),
                       ],
                     ),
+                    if (_c.recipe.continental != null && _c.loadingCountry == false) ...[
+                      const SizedBox(height: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Negara", style: CustomTextTheme.heading4),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<String>(
+                            value: _c.recipe.countries,
+                            decoration: InputDecoration(
+                              filled: true,
+                              hintStyle: CustomTextTheme.body1,
+                              fillColor: cardColor,
+                              hintText: "Masukkan negara",
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            onChanged: (value) => _c.onChange("countries", value ?? "-"),
+                            items: [
+                              ..._c.listCountry.map((e) => DropdownMenuItem(value: e['code'] ?? '', child: Text(e['country'] ?? ''))),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: 15),
-                    Text("Stuff", style: CustomTextTheme.heading4),
+                    Text("Bahan bahan", style: CustomTextTheme.heading4),
                     if (_c.listStuffOnEntities.isNotEmpty) const SizedBox(height: 10),
                     if (_c.listStuffOnEntities.isNotEmpty)
                       Container(
@@ -209,7 +236,7 @@ class EditRecipePage extends StatelessWidget {
                                           TextButton(
                                             onPressed: () => _c.deleteStuffOnRecipeEdit(e.id!, index),
                                             child: Text(
-                                              "Delete",
+                                              "Hapus",
                                               style: CustomTextTheme.heading5.copyWith(color: Colors.red),
                                             ),
                                           )
@@ -248,7 +275,7 @@ class EditRecipePage extends StatelessWidget {
                                                   mainAxisSize: MainAxisSize.min,
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Text("Quantity (${e.unit})"),
+                                                    Text("Jumlah (${e.unit})"),
                                                     Padding(
                                                       padding: const EdgeInsets.all(15),
                                                       child: TextField(
@@ -278,7 +305,7 @@ class EditRecipePage extends StatelessWidget {
                                                           ),
                                                         ),
                                                         onPressed: () => _c.addStuffOnRecipeEdit(e),
-                                                        child: const Text('Save'),
+                                                        child: const Text('Simpan'),
                                                       ),
                                                     ),
                                                   ],
@@ -298,10 +325,10 @@ class EditRecipePage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Text("Add Stuff"),
+                      child: const Text("Tambah bahan"),
                     ),
                     const SizedBox(height: 15),
-                    Text("Instruction", style: CustomTextTheme.heading4),
+                    Text("Cara Memasak", style: CustomTextTheme.heading4),
                     const SizedBox(height: 10),
                     TextFormField(
                       initialValue: _c.recipe.instruction,
@@ -311,7 +338,7 @@ class EditRecipePage extends StatelessWidget {
                         filled: true,
                         hintStyle: CustomTextTheme.body1,
                         fillColor: cardColor,
-                        hintText: "Enter instruction",
+                        hintText: "Masukkan cara memasak",
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(15),
@@ -343,7 +370,7 @@ class EditRecipePage extends StatelessWidget {
                     ),
                   ),
                   onPressed: _c.isBtnEnabled ? () => _c.onEdit() : null,
-                  child: const Text('Save'),
+                  child: const Text('Simpan'),
                 ),
               ),
             ],

@@ -16,7 +16,7 @@ class RecipeOnCountry extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Recipe on ${args['country']}",
+          "Resep di ${args['name']}",
           style: const TextStyle(color: textColor),
         ),
       ),

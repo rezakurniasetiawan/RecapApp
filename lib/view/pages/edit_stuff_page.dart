@@ -17,7 +17,7 @@ class EditStuffPage extends StatelessWidget {
     StuffUnit(name: 'Gram', value: 'gr'),
     StuffUnit(name: 'Mililiter', value: 'ml'),
     StuffUnit(name: 'Pcs', value: 'pcs'),
-    StuffUnit(name: 'Spoon', value: 'sdm'),
+    StuffUnit(name: 'Sendok', value: 'sdm'),
   ];
 
   @override
@@ -41,7 +41,7 @@ class EditStuffPage extends StatelessWidget {
                           const Icon(Icons.delete, color: Colors.red),
                           const SizedBox(width: 10),
                           Text(
-                            "Delete",
+                            "Hapus",
                             style: CustomTextTheme.heading4.copyWith(color: Colors.red),
                           ),
                         ],
@@ -85,7 +85,7 @@ class EditStuffPage extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () => _c.deleteImage(),
-                                  child: const Text('Delete'),
+                                  child: const Text('Hapus'),
                                 ),
                               ],
                             ),
@@ -104,16 +104,16 @@ class EditStuffPage extends StatelessWidget {
                                   children: [
                                     const Icon(FeatherIcons.image, size: 50, color: mutedColor),
                                     const SizedBox(height: 10),
-                                    Text("Add Cover Photo", style: CustomTextTheme.heading4.copyWith(color: textColor)),
+                                    Text("Tambah Foto", style: CustomTextTheme.heading4.copyWith(color: textColor)),
                                     const SizedBox(height: 10),
-                                    Text("(up to 2Mb)", style: CustomTextTheme.heading6.copyWith(color: mutedColor)),
+                                    Text("(Max 2Mb)", style: CustomTextTheme.heading6.copyWith(color: mutedColor)),
                                   ],
                                 ),
                               ),
                             ),
                           ),
                     const SizedBox(height: 15),
-                    Text("Stuff Name", style: CustomTextTheme.heading4),
+                    Text("Nama Bahan", style: CustomTextTheme.heading4),
                     const SizedBox(height: 10),
                     TextFormField(
                       initialValue: _c.stuff.name,
@@ -122,7 +122,7 @@ class EditStuffPage extends StatelessWidget {
                         filled: true,
                         hintStyle: CustomTextTheme.body1,
                         fillColor: cardColor,
-                        hintText: "Enter name",
+                        hintText: "Masukkan nama",
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(15),
@@ -136,7 +136,7 @@ class EditStuffPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Price", style: CustomTextTheme.heading4),
+                              Text("Harga", style: CustomTextTheme.heading4),
                               const SizedBox(height: 10),
                               TextFormField(
                                 initialValue: _c.stuff.price.toString(),
@@ -147,7 +147,7 @@ class EditStuffPage extends StatelessWidget {
                                   filled: true,
                                   hintStyle: CustomTextTheme.body1,
                                   fillColor: cardColor,
-                                  hintText: "Enter price",
+                                  hintText: "Masukkan harga",
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.circular(15),
@@ -157,36 +157,36 @@ class EditStuffPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Stock", style: CustomTextTheme.heading4),
-                              const SizedBox(height: 10),
-                              TextFormField(
-                                initialValue: _c.stuff.stock.toString(),
-                                onChanged: (value) => _c.onChange("stock", value),
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  hintStyle: CustomTextTheme.body1,
-                                  fillColor: cardColor,
-                                  hintText: "Enter stock",
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // const SizedBox(width: 15),
+                        // Expanded(
+                        //   child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //       Text("Stock", style: CustomTextTheme.heading4),
+                        //       const SizedBox(height: 10),
+                        //       TextFormField(
+                        //         initialValue: _c.stuff.stock.toString(),
+                        //         onChanged: (value) => _c.onChange("stock", value),
+                        //         keyboardType: TextInputType.number,
+                        //         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        //         decoration: InputDecoration(
+                        //           filled: true,
+                        //           hintStyle: CustomTextTheme.body1,
+                        //           fillColor: cardColor,
+                        //           hintText: "Enter stock",
+                        //           border: OutlineInputBorder(
+                        //             borderSide: BorderSide.none,
+                        //             borderRadius: BorderRadius.circular(15),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 15),
-                    Text("Unit", style: CustomTextTheme.heading4),
+                    Text("Satuan", style: CustomTextTheme.heading4),
                     const SizedBox(height: 10),
                     DropdownButtonFormField<StuffUnit>(
                       value: _stuffUnit.where((element) => element.name == _c.stuff.unit).firstOrNull,
@@ -194,7 +194,7 @@ class EditStuffPage extends StatelessWidget {
                         filled: true,
                         hintStyle: CustomTextTheme.body1,
                         fillColor: cardColor,
-                        hintText: "Enter unit",
+                        hintText: "Masukkan satuan",
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(15),
@@ -208,7 +208,7 @@ class EditStuffPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 15),
-                    Text("Description", style: CustomTextTheme.heading4),
+                    Text("Deskripsi", style: CustomTextTheme.heading4),
                     const SizedBox(height: 10),
                     TextFormField(
                       initialValue: _c.stuff.description,
@@ -218,7 +218,7 @@ class EditStuffPage extends StatelessWidget {
                         filled: true,
                         hintStyle: CustomTextTheme.body1,
                         fillColor: cardColor,
-                        hintText: "Enter description",
+                        hintText: "Masukkan deskripsi",
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(15),
@@ -250,7 +250,7 @@ class EditStuffPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: _c.isBtnEnabled ? () => _c.onEdit() : null,
-                  child: const Text('Save'),
+                  child: const Text('Simpan'),
                 ),
               ),
             ],

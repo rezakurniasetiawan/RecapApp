@@ -35,7 +35,7 @@ class HomeController extends GetxController {
   Future<void> loadCountries() async {
     try {
       _loading.value = Status.loading;
-      String content = await rootBundle.loadString('assets/data/countries.json');
+      String content = await rootBundle.loadString('assets/data/parsed_countries.json');
 
       List<dynamic> countries = jsonDecode(content);
       _countryList.value = countries;
@@ -55,7 +55,7 @@ class HomeController extends GetxController {
 
   void search(String keyword) async {
     if (type == TypeDashboard.countries) {
-      _filterCountryList.value = countryList.where((element) => element.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      _filterCountryList.value = countryList.where((element) => element["name"].toLowerCase().contains(keyword.toLowerCase())).toList();
     } else {
       _filteredListRecipe.value = listRecipe.where((element) => element.name!.toLowerCase().contains(keyword.toLowerCase())).toList();
     }

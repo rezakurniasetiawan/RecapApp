@@ -17,7 +17,7 @@ class RecipeOnCountryController extends GetxController {
   void getData() async {
     final sql = DatabaseHelper();
     final Map<String, dynamic> args = Get.arguments;
-    final result = await sql.getRecipeOnCountry(args['code']);
+    final result = await sql.getRecipeOnCountry(args['name']);
     _recipe.value = result;
   }
 }

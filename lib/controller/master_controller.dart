@@ -36,6 +36,8 @@ class MasterController extends GetxController {
   // Add Recipe Page
   final Rx<RecipeEntities> _recipe = Rx(const RecipeEntities());
   final Rx<List<StuffOnRecipeEntities>> _listStuffOnEntities = Rx([]);
+  final Rx<List> _listCountry = Rx([]);
+  final Rx<bool> _loadingCountry = Rx(false);
 
   // Getter
   DataType get dataType => _dataType.value;
@@ -47,6 +49,8 @@ class MasterController extends GetxController {
   StuffEntities get stuff => _stuff.value;
   RecipeEntities get recipe => _recipe.value;
   List get countryList => _countryList.value;
+  List get listCountry => _listCountry.value;
+  bool get loadingCountry => _loadingCountry.value;
   List<StuffOnRecipeEntities> get listStuffOnEntities => _listStuffOnEntities.value;
 
   TextEditingController stuffQtyController = TextEditingController();
@@ -69,7 +73,7 @@ class MasterController extends GetxController {
   }
 
   Future<void> loadCountries() async {
-    String content = await rootBundle.loadString('assets/data/countries.json');
+    String content = await rootBundle.loadString('assets/data/parsed_countries.json');
 
     List<dynamic> countries = jsonDecode(content);
     _countryList.value = countries;
@@ -84,6 +88,7 @@ class MasterController extends GetxController {
   }
 
   void onAddPressed() {
+    resetForm();
     if (dataType == DataType.recipe) {
       Get.toNamed('/master-data/recipe');
     } else {
@@ -132,6 +137,10 @@ class MasterController extends GetxController {
   Future<void> editRecipe(RecipeEntities value) async {
     Get.toNamed('/master-data/recipe/edit');
     _recipe.value = value;
+    _loadingCountry.value = true;
+    _listCountry.value = countryList.firstWhere((element) => element["name"] == recipe.continental)["countries"];
+    await Future.delayed(const Duration(milliseconds: 500));
+    _loadingCountry.value = false;
     final sql = DatabaseHelper();
     final stuffOnRecipeList = await sql.getStuffOnRecipe(value.id!);
     print(stuffOnRecipeList.length);
@@ -170,7 +179,7 @@ class MasterController extends GetxController {
     }
   }
 
-  void onChange(String key, value) {
+  void onChange(String key, value) async {
     if (dataType == DataType.stuff) {
       switch (key) {
         case "image":
@@ -210,6 +219,15 @@ class MasterController extends GetxController {
           _recipe.value = recipe.copyWith(name: value);
           break;
 
+        case "continental":
+          _loadingCountry.value = true;
+          _recipe.value = recipe.copyWith(continental: value);
+          _listCountry.value = countryList.firstWhere((element) => element["name"] == recipe.continental)["countries"];
+          _recipe.value = recipe.nullCountries();
+          await Future.delayed(const Duration(milliseconds: 500));
+          _loadingCountry.value = false;
+          break;
+
         case "countries":
           _recipe.value = recipe.copyWith(countries: value);
           break;
@@ -247,6 +265,7 @@ class MasterController extends GetxController {
     _stuff.value = const StuffEntities();
     _recipe.value = const RecipeEntities();
     _isBtnEnabled.value = false;
+    _listStuffOnEntities.value = [];
     getRecipeList();
     getStuffList();
     Get.back();
@@ -254,9 +273,9 @@ class MasterController extends GetxController {
 
   bool isFilled() {
     if (dataType == DataType.stuff) {
-      return (stuff.image != null && stuff.name != null && stuff.price != null && stuff.stock != null && stuff.stock != null && stuff.description != null);
+      return (stuff.image != null && stuff.name != null && stuff.price != null && stuff.description != null);
     } else {
-      return (recipe.image != null && recipe.name != null && recipe.countries != null && recipe.duration != null && recipe.instruction != null);
+      return (recipe.image != null && recipe.name != null && recipe.continental != null && recipe.countries != null && recipe.duration != null && recipe.instruction != null);
     }
   }
 

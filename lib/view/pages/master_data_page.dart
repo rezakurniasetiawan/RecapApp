@@ -26,7 +26,7 @@ class MasterDataPage extends StatelessWidget {
                   filled: true,
                   hintStyle: CustomTextTheme.heading5,
                   fillColor: backgroundColor,
-                  hintText: "Search",
+                  hintText: "Cari",
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(15),
@@ -51,11 +51,11 @@ class MasterDataPage extends StatelessWidget {
                       tabs: [
                         Padding(
                           padding: const EdgeInsets.all(15),
-                          child: Text('Recipe', style: CustomTextTheme.heading5.copyWith(color: textColor)),
+                          child: Text('Resep', style: CustomTextTheme.heading5.copyWith(color: textColor)),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15),
-                          child: Text('Stuff', style: CustomTextTheme.heading5.copyWith(color: textColor)),
+                          child: Text('Bahan', style: CustomTextTheme.heading5.copyWith(color: textColor)),
                         ),
                       ],
                     ),
@@ -181,24 +181,24 @@ class MasterDataPage extends StatelessWidget {
                                                           ),
                                                         ),
                                                       ),
-                                                      Positioned(
-                                                        right: 10,
-                                                        top: 10,
-                                                        child: Container(
-                                                          width: 75,
-                                                          decoration: BoxDecoration(
-                                                            color: primaryColor,
-                                                            borderRadius: BorderRadius.circular(5),
-                                                          ),
-                                                          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                                                          child: Text(
-                                                            "${e.stock} ${e.unit}",
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: CustomTextTheme.heading5.copyWith(color: cardColor),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                      // Positioned(
+                                                      //   right: 10,
+                                                      //   top: 10,
+                                                      //   child: Container(
+                                                      //     width: 75,
+                                                      //     decoration: BoxDecoration(
+                                                      //       color: primaryColor,
+                                                      //       borderRadius: BorderRadius.circular(5),
+                                                      //     ),
+                                                      //     padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                                                      //     child: Text(
+                                                      //       "${e.stock} ${e.unit}",
+                                                      //       maxLines: 1,
+                                                      //       overflow: TextOverflow.ellipsis,
+                                                      //       style: CustomTextTheme.heading5.copyWith(color: cardColor),
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   ),
                                                   const SizedBox(height: 15),

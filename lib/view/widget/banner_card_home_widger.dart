@@ -14,6 +14,7 @@ class BannerCardHomeWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
+                  margin: EdgeInsets.only(top: 30),
                   padding: const EdgeInsets.all(30),
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -24,11 +25,11 @@ class BannerCardHomeWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Worldwide Recipe",
+                        "Resep Seluruh Dunia",
                         style: CustomTextTheme.heading3.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "Find all suitable recipe all around the world",
+                        "Cari resep yang cocok di seluruh dunia",
                         style: CustomTextTheme.heading5.copyWith(color: Colors.white),
                       ),
                     ],
@@ -42,9 +43,9 @@ class BannerCardHomeWidget extends StatelessWidget {
           ),
           Positioned(
             right: 0,
-            top: -10,
+            top: 0,
             child: Image.asset(
-              'assets/images/burger.png',
+              'assets/images/chef.png',
               width: 150,
             ),
           ),
